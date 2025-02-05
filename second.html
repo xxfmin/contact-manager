@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Manager</title>
+    <link rel="stylesheet" href="second.css"> 
+</head>
+<body>
+
+<div class="header">
+    <h2>NAME's Contacts</h2>
+    <button class="logoutBtn">
+        Logout<!--add icon later-->
+    </button>
+</div>
+
+<div class="optionsContainer">
+    <button class="addContact" onclick="addContact()">Add Contact</button>
+
+    <div class="filter-container">
+        <button class="filter-button" onclick="toggleDropdown()">Filter</button>
+        <div id="filter-content" class="filter-content">
+            <label><input type="checkbox" value="firstName" onchange="filterTable()"> First Name</label>
+            <label><input type="checkbox" value="lastName" onchange="filterTable()"> Last Name</label>
+            <label><input type="checkbox" value="email" onchange="filterTable()"> Email</label>
+        </div>
+    </div>
+
+    <input type="text" id="search" placeholder="Search" onkeyup="filterTable()">
+</div>
+
+<table>
+    <tr>
+        <th width="20%">First Name</th>
+        <th width="20%">Last Name</th>
+        <th >Email</th>
+        <th width="12%">Date Modified</th>
+        <th width="7%" colspan="2"> </th>
+    </tr>
+    <tr>
+        <td>Jane</td>
+        <td>Doe</td>
+        <td>JaneDoe@gmail.com</td>
+        <td>2/5/2025</td>
+        <td><button class="editBtn" onchange="editContact()">e</button></td>
+        <td><button class="deleteBtn" onchange="deleteContact()">d</button></td>
+    </tr>
+
+</table>
+
+
+<script>
+    function toggleDropdown() {
+        document.getElementById("filter-content").classList.toggle("show");
+    }
+
+    document.addEventListener("click", function(event) {
+        let dropdown = document.querySelector(".filter-container");
+        let isClickInside = dropdown.contains(event.target);
+        
+        if (!isClickInside) {
+            document.getElementById("filter-content").classList.remove("show");
+        }
+    });
+</script>
+</body>
+
+</html>
