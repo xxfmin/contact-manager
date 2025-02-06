@@ -11,16 +11,12 @@
     <div class="container">
         <h2 id="formTitle">Login</h2>
         <form id="authForm">
-
-            <!-- Default login form -->
             <div id="loginFields">
                 <input type="text" id="username" placeholder="Username" required>
                 <input type="password" id="password" placeholder="Password" required>
                 <button type="submit">Submit</button>
-                
             </div>
 
-            <!-- Sign-up form fields (hidden initially) -->
             <div id="signupFields" style="display:none;">
                 <input type="text" id="firstName" placeholder="First Name" required>
                 <input type="text" id="lastName" placeholder="Last Name" required>
@@ -32,47 +28,7 @@
         </form>
         <p class="toggle" onclick="toggleForm()">Don't have an account? Sign up</p>
     </div>
-
-    <script>
-        document.getElementById("authForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent form from submitting normally
-
-            // Check if it's sign-up or login
-            if (document.getElementById("formTitle").innerText === "Sign Up") {
-                // Perform sign-up logic here (e.g., send data to the server to create an account)
-                console.log("Sign up");
-                // Redirect to second page after successful sign-up (example)
-                window.location.href = "second.html"; 
-            } else {
-                // Perform login logic here (e.g., check credentials)
-                console.log("Login");
-                // Redirect to second page after successful login (example)
-                window.location.href = "second.html";
-            }
-        });
-
-        function toggleForm() {
-            const formTitle = document.getElementById("formTitle");
-            const toggleText = document.querySelector(".toggle");
-            const loginFields = document.getElementById("loginFields");
-            const signupFields = document.getElementById("signupFields");
-
-            if (formTitle.innerText === "Login") {
-                // Switch to sign-up form
-                formTitle.innerText = "Sign Up";
-                toggleText.innerText = "Already have an account? Login";
-                loginFields.style.display = "none";
-                signupFields.style.display = "block";
-            } else {
-                // Switch to login form
-                formTitle.innerText = "Login";
-                toggleText.innerText = "Don't have an account? Sign up";
-                loginFields.style.display = "block";
-                signupFields.style.display = "none";
-            }
-        }
-    </script>
+  
+    <script src="first.js"></script>
 </body>
 </html>
-
-<!-- it's not letting you login because there's no database to check-->
