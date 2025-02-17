@@ -6,18 +6,23 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 include 'db.php';
 
+
 $inData = getRequestInfo();
 
-if (!isset($inData["contactFirstName"], $inData["contactLastName"], $inData["contactEmail"])) {
+// Uncomment to see requestinfo
+//sendResultInfoAsJson(["error" => $inData]);
+//exit();
+
+if (!isset($inData["userID"], $inData["firstName"], $inData["lastName"], $inData["email"])) {
 	sendResultInfoAsJson(["error" => "All fields are required"]);
 	exit();
 }
 
 // Set variables
-$first = $inData["contactFirstName"];
-$last = $inData["contactLastName"];
-$email = $inData["contactEmail"];
-$id = $inData["ID"];
+$first = $inData["firstName"];
+$last = $inData["lastName"];
+$email = $inData["email"];
+$id = $inData["userID"];
 
 // Check for duplicate contacts?
 

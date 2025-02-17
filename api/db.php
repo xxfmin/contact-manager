@@ -41,4 +41,5 @@ function returnWithInfo($firstName, $lastName, $id) {
     ];
     sendResultInfoAsJson($retVal);
 }
+
 ?>

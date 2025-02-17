@@ -63,14 +63,15 @@ document.getElementById("saveContact").addEventListener("click", function() {
         <td><button class="deleteBtn"><i class="fa fa-trash-o"></i></button></td>
     `;
 
-    // Clear input fields
+	sendContactToPHP();
+    
+	// Clear input fields
     document.getElementById("contactFirstName").value = "";
     document.getElementById("contactLastName").value = "";
     document.getElementById("contactEmail").value = "";
 
     // Hide form after adding
     document.querySelector(".add-contact-form").style.display = "none";
-	sendContactToPHP();
 
     // Function to enable editing a contact
 function editContact(button) {
@@ -212,19 +213,34 @@ function sendContactToPHP() {
   }
 
   // Collect contact details from html
-  const firstName = document.getElementById("contactFirstName").value;
-  const lastName = document.getElementById("contactLastName").value;
-  const email = document.getElementById("contactEmail").value;
+  var firstName = document.getElementById("contactFirstName").value;
+  var lastName = document.getElementById("contactLastName").value;
+  var email = document.getElementById("contactEmail").value;
 
-  // Create the JSON
-  const data = {
+
+	// HARDCODE TO TEST BEFORE ADDING COOKIES. REMOVE AND CHECK BEFORE FINAL PRODUCT
+	// HARDCODE TO TEST BEFORE ADDING COOKIES. REMOVE AND CHECK BEFORE FINAL PRODUCT
+	// HARDCODE TO TEST BEFORE ADDING COOKIES. REMOVE AND CHECK BEFORE FINAL PRODUCT
+	userData.ID = 2;
+	// HARDCODE TO TEST BEFORE ADDING COOKIES. REMOVE AND CHECK BEFORE FINAL PRODUCT
+	// HARDCODE TO TEST BEFORE ADDING COOKIES. REMOVE AND CHECK BEFORE FINAL PRODUCT
+	// HARDCODE TO TEST BEFORE ADDING COOKIES. REMOVE AND CHECK BEFORE FINAL PRODUCT
+	// HARDCODE TO TEST BEFORE ADDING COOKIES. REMOVE AND CHECK BEFORE FINAL PRODUCT
+
+	// Test Print
+	//console.log("Name: " + firstName + " Last Name: " + lastName + " Email: " + email + " ID: " + userData.ID);
+  
+	// Create the JSON
+  var data = {
     userID: userData.ID,
     firstName: firstName,
     lastName: lastName,
     email: email
   };
 
-  // Send the data to PHP
+	console.log(JSON.stringify(data));
+
+  // Send the JSON to PHP
   fetch("api/addcontact.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
