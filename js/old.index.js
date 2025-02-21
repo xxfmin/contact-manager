@@ -186,8 +186,9 @@ function saveCookie() {
     "session=" + cookieValue + "; expires=" + date.toUTCString() + "; path=/";
 }
 
-// Read cookies
+// Read session from cookie and redirect if necessary
 function readCookie() {
+  userId = -1;
   let cookies = document.cookie.split("; ");
   let sessionCookie = cookies.find((row) => row.startsWith("session="));
   if (sessionCookie) {
@@ -199,5 +200,8 @@ function readCookie() {
       lastname = parts[1];
       userId = parseInt(parts[2]);
     }
+  }
+  if (userId < 0) {
+    window.location.href = "index.html";
   }
 }
