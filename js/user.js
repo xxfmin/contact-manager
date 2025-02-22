@@ -48,3 +48,26 @@ function getUserDetails() {
 	console.log("test");
 }
 
+function confirmDelete() {
+  let confirmation = confirm("Are you sure you want to delete your account?");
+  if (confirmation) {
+      // Perform account deletion logic here
+      alert("Account deleted successfully.");
+      // Redirect or clear storage as needed
+      localStorage.clear();
+      window.location.href = "index.html"; // Redirect to the homepage or login page
+  }
+}
+
+function togglePasswordFields() {
+  let passwordFields = document.getElementById("password-fields");
+  let button = document.getElementById("edit-password-btn");
+
+  if (passwordFields.style.display === "none") {
+    passwordFields.style.display = "block";
+    button.textContent = "Hide Password Fields";
+  } else {
+    passwordFields.style.display = "none";
+    button.textContent = "Edit Password";
+  }
+}

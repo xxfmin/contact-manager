@@ -22,6 +22,8 @@ function readCookie() {
 // Read cookie and update the header
 document.addEventListener("DOMContentLoaded", function () {
   readCookie();
+  checkAllFilters();
+
 
   // Update <h2> if firstname is found
   let header = document.querySelector(".header h2");
@@ -284,4 +286,9 @@ function searchContact() {
       }
     })
     .catch((error) => console.error("Fetch error:", error));
+}
+function checkAllFilters() {
+  document.getElementById("fNameFilter").checked = true;
+  document.getElementById("lNameFilter").checked = true;
+  document.getElementById("emailFilter").checked = true;
 }

@@ -14,8 +14,6 @@
           Back to Contacts
         </button>
       </div>
-
-      <h2>Edit Account Information</h2>
       <div class="input-group">
         <label for="username">Username:</label>
         <input type="text" id="username" placeholder="Enter Username" />
@@ -24,22 +22,27 @@
         <label for="email">Email:</label>
         <input type="email" id="email" placeholder="Enter Email" />
       </div>
-      <div class="input-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" placeholder="Enter Password" />
+      
+      <div class="button-row">
+        <button type="button" id="edit-password-btn" onclick="togglePasswordFields()">Edit Password</button>
+        <button class="delete-btn" onclick="confirmDelete()">Delete Account</button>
       </div>
 
-      <div>
-        <button
-          style="background-color: rgb(176, 83, 33)"
-          type="button"
-          class="btn btn-link"
-          onclick="confirmDelete()"
-        >
-          Delete Account
-        </button>
+      <div id="password-fields" style="display: none;">
+        <div class="input-group">
+          <label for="old-password">Enter old password:</label>
+          <input type="password" id="old-password" placeholder="Enter old password" />
+        </div>
+        <div class="input-group">
+          <label for="new-password">Enter new password:</label>
+          <input type="password" id="new-password" placeholder="Enter new password" />
+        </div>
+        <div class="input-group">
+          <label for="confirm-password">Re-type new password:</label>
+          <input type="password" id="confirm-password" placeholder="Re-type new password" />
+        </div>
       </div>
-
+      
       <div class="button-container">
         <button onclick="window.location.href='search.html'">
           Save Changes
