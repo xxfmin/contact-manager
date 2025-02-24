@@ -19,6 +19,23 @@ if ($userId === 0) {
     exit();
 }
 
+// Check for conflicts with an existing username or email from other users
+$stmt = $conn->prepare("SELECT ID FROM Users WHERE (Username = ? OR UserEmail = ?) AND ID <> ?");
+if (!$stmt) {
+    sendResultInfoAsJson(["error" => "Database error: " . $conn->error]);
+    exit();
+}
+$stmt->bind_param("ssi", $username, $email, $userId);
+$stmt->execute();
+$stmt->store_result();
+if ($stmt->num_rows > 0) {
+    sendResultInfoAsJson(["error" => "Username or Email already taken."]);
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+$stmt->close();
+
 // Fetch current password hash from DB to verify oldPass if needed
 $stmt = $conn->prepare("SELECT Password FROM Users WHERE ID = ?");
 if (!$stmt) {
