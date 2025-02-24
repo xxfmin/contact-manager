@@ -16,6 +16,8 @@ function readCookie() {
       lastname = parts[1];
       userId = parseInt(parts[2]);
     }
+  } else {
+    window.location.href = "index.html";
   }
 }
 
@@ -23,7 +25,6 @@ function readCookie() {
 document.addEventListener("DOMContentLoaded", function () {
   readCookie();
   checkAllFilters();
-
 
   // Update <h2> if firstname is found
   let header = document.querySelector(".header h2");
