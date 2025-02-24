@@ -114,7 +114,7 @@ document.getElementById("saveContact").addEventListener("click", function () {
     errorMessage.style.color = "red";
     errorMessage.style.marginTop = "5px";
     errorMessage.innerText = "Please fill all fields.";
-    // Insert the error message right before the Save button in the add-contact-form
+  
     let form = document.getElementById("add-contact-form");
     form.insertBefore(errorMessage, document.getElementById("saveContact"));
     return;
