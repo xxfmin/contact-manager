@@ -7,12 +7,41 @@ include 'db.php';
 
 $inData = getRequestInfo();
 
-$userId     = isset($inData["userId"])     ? (int)$inData["userId"] : 0;
-$username   = isset($inData["username"])   ? trim($inData["username"]) : "";
-$email      = isset($inData["email"])      ? trim($inData["email"]) : "";
-$oldPass    = isset($inData["oldPass"])    ? $inData["oldPass"] : "";
-$newPass    = isset($inData["newPass"])    ? $inData["newPass"] : "";
-$confirmPass= isset($inData["confirmPass"]) ? $inData["confirmPass"] : "";
+if (isset($inData["userId"])) {
+    $userId = (int)$inData["userId"];
+} else {
+    $userId = 0;
+}
+
+if (isset($inData["username"])) {
+    $username = trim($inData["username"]);
+} else {
+    $username = "";
+}
+
+if (isset($inData["email"])) {
+    $email = trim($inData["email"]);
+} else {
+    $email = "";
+}
+
+if (isset($inData["oldPass"])) {
+    $oldPass = $inData["oldPass"];
+} else {
+    $oldPass = "";
+}
+
+if (isset($inData["newPass"])) {
+    $newPass = $inData["newPass"];
+} else {
+    $newPass = "";
+}
+
+if (isset($inData["confirmPass"])) {
+    $confirmPass = $inData["confirmPass"];
+} else {
+    $confirmPass = "";
+}
 
 if ($userId === 0) {
     sendResultInfoAsJson(["error" => "Missing or invalid userId"]);
