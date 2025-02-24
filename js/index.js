@@ -125,7 +125,7 @@ function doSignup(event) {
     lastname: lastName,
     username: username,
     password: password,
-	email : email
+    email: email,
   };
   let jsonPayload = JSON.stringify(tmp);
   let url = urlBase + "/signup." + extension;
@@ -193,7 +193,7 @@ function readCookie() {
   let cookies = document.cookie.split("; ");
   let sessionCookie = cookies.find((row) => row.startsWith("session="));
   if (sessionCookie) {
-	  window.location.href = "search.html";
+    window.location.href = "search.html";
   }
 }
 
