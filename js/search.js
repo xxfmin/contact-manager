@@ -101,8 +101,22 @@ document.getElementById("saveContact").addEventListener("click", function () {
   let lastName = document.getElementById("contactLastName").value;
   let email = document.getElementById("contactEmail").value;
 
+  // Remove any existing error message if present
+  let errorMessage = document.getElementById("contactErrorMessage");
+  if (errorMessage) {
+    errorMessage.remove();
+  }
+
+  // Display error message if all fields are not filled
   if (firstName === "" || lastName === "" || email === "") {
-    alert("Please fill all fields.");
+    errorMessage = document.createElement("div");
+    errorMessage.id = "contactErrorMessage";
+    errorMessage.style.color = "red";
+    errorMessage.style.marginTop = "5px";
+    errorMessage.innerText = "Please fill all fields.";
+    // Insert the error message right before the Save button in the add-contact-form
+    let form = document.getElementById("add-contact-form");
+    form.insertBefore(errorMessage, document.getElementById("saveContact"));
     return;
   }
 
