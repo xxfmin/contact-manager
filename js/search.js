@@ -324,9 +324,25 @@ function searchContact() {
 	const ln = document.getElementById("lNameFilter");
 	const email = document.getElementById("emailFilter");
 
-	const ffn = fn.checked ? 1 : 0;
-	const fln = ln.checked ? 1 : 0;
-	const femail = email.checked ? 1 : 0;
+	let ffn, fln, femail;
+
+	if(fn.checked) {
+		ffn = 1;
+	} else {
+		ffn = 0;
+	}
+
+	if(ln.checked) {
+		fln = 1;
+	} else {
+		fln = 0;
+	}
+
+	if(email.checked) {
+		femail = 1;
+	} else {
+		femail = 0;
+	}
 
 	var data = {
 		filterFirst: ffn,
@@ -348,6 +364,27 @@ function searchContact() {
 				console.error("Error:", result.error);
 			} else {
 				console.log("Contacts queried:", result);
+
+				// Select table
+				let table = document.querySelector("table");
+
+				// Remove old rows
+				while (table.rows.length > 1) {
+					table.deleteRow(1);
+				}
+
+				// Create a row for each contact
+				result.contacts.forEach(contact => {
+					let newRow = table.insertRow(-1);
+					newRow.innerHTML = `
+					<td>${contact.FirstName}</td>
+					<td>${contact.LastName}</td>
+					<td>${contact.Email}</td>
+					<td>${new Date(contact.DateCreated).toLocaleDateString()}</td>
+					<td><button class="editBtn"><i class="fa fa-pencil"></i></button></td>
+					<td><button class="deleteBtn"><i class="fa fa-trash-o"></i></button></td>
+				`;
+				});
 			}
 		})
 		.catch((error) => console.error("Fetch error:", error));
