@@ -23,6 +23,7 @@ if ($inData["filterFirst"] == 0 AND $inData["filterLast"] == 0 AND $inData["filt
 }
 
 // Set variables
+$OwnerID = $inData["OwnerID"];
 $search = $inData["search"];
 $filterFirst = $inData["filterFirst"];
 $filterLast = $inData["filterLast"];
@@ -65,9 +66,12 @@ if(!empty($search)) {
         }
         $query .= "LOWER(Email) LIKE LOWER('%$searchEscaped%')";
     }
-    $query .= ")";
+    $query .= ") AND OwnerID = ?";
 
+} else {
+	$query .= " WHERE OwnerID = ?";
 }
+
 
 // Query for contacts
 $stmt = $conn->prepare($query);
@@ -76,10 +80,11 @@ if (!$stmt) {
     exit();
 }
 
+$stmt->bind_param("i", $OwnerID);
 
 if ($stmt->execute()) {
 	$result = $stmt->get_result();
-	$contacts = $result->fetch_all(MYSQLI_ASSOC); // Needs argument
+	$contacts = $result->fetch_all(MYSQLI_ASSOC);
 	sendResultInfoAsJson(["contacts" => $contacts]);
 	//sendResultInfoAsJson(["message" => "Contacts retrieved successfully!"]);
 } else {

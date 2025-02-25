@@ -21,11 +21,12 @@ function readCookie() {
 	}
 }
 
+
 // Read cookie and update the header
 document.addEventListener("DOMContentLoaded", function () {
 	readCookie();
 	checkAllFilters();
-
+	searchContact();
 	// Update <h2> if firstname is found
 	let header = document.querySelector(".header h2");
 	if (header && firstname) {
@@ -327,7 +328,7 @@ function deleteContact(button) {
 	.then((result) => {
 		if(result.error) {
 			console.error("Error:", result.error);
-			alert("Error Deleting Account"); // Change alert to something else
+			alert("Error Deleting Contact"); // Change alert to something else
 		} else {
 			console.log("Contact Deleted");
 			row.remove();
@@ -398,6 +399,7 @@ function searchContact() {
 	}
 
 	var data = {
+		OwnerID: userId,
 		filterFirst: ffn,
 		filterLast: fln,
 		filterEmail: femail,
@@ -448,3 +450,5 @@ function checkAllFilters() {
 	document.getElementById("lNameFilter").checked = true;
 	document.getElementById("emailFilter").checked = true;
 }
+
+

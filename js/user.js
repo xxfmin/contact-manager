@@ -126,88 +126,109 @@ function getUserDetails() {
 }
 
 function confirmDelete() {
-  let container = document.getElementById("messageContainer");
-  container.innerHTML = `
-    <div id="deleteConfirmation" style="margin-bottom:10px;">
-      <span style="color: red;">Are you sure you want to delete your account?</span>
-      <button id="confirmDeleteBtn">Yes, Delete</button>
-      <button id="cancelDeleteBtn">Cancel</button>
-    </div>
+	let container = document.getElementById("messageContainer");
+	container.innerHTML = `
+	<div id="deleteConfirmation" style="margin-bottom:10px;">
+	  <span style="color: red;">Are you sure you want to delete your account?</span>
+	  <button id="confirmDeleteBtn">Yes, Delete</button>
+	  <button id="cancelDeleteBtn">Cancel</button>
+	</div>
   `;
 
-  document
-    .getElementById("confirmDeleteBtn")
-    .addEventListener("click", function () {
-      displaySuccess("Account deleted successfully.");
-      localStorage.clear();
-      // Clear the session cookie
-      document.cookie =
-        "session=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 2000);
-    });
+	document.getElementById("confirmDeleteBtn").addEventListener("click", function () {
 
-  document
-    .getElementById("cancelDeleteBtn")
-    .addEventListener("click", function () {
-      // Remove the confirmation message
-      let confirmDiv = document.getElementById("deleteConfirmation");
-      if (confirmDiv) {
-        confirmDiv.remove();
-      }
-    });
+		let data = {
+			UserID: userId
+		};
+
+		fetch("api/deleteuser.php", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(data),
+		})
+			.then((response) => response.json())
+			.then((result) => {
+				if(result.error) {
+					console.error("Error:", result.error);
+					alert("Error Deleting User"); // Change alert to something else
+				} else {
+					console.log("User Deleted");
+					displaySuccess("Account deleted successfully.");
+					localStorage.clear();
+					// Clear the session cookie
+					document.cookie =
+						"session=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+					setTimeout(() => {
+						window.location.href = "index.html";
+					}, 1);
+
+				}
+			})
+			.catch(error => {
+				console.error("Fatal Error:", error);
+			});	
+	});
+
+	document
+		.getElementById("cancelDeleteBtn")
+		.addEventListener("click", function () {
+			// Remove the confirmation message
+			let confirmDiv = document.getElementById("deleteConfirmation");
+			if (confirmDiv) {
+				confirmDiv.remove();
+			}
+		});
 }
 
 function togglePasswordFields() {
-  let passwordFields = document.getElementById("password-fields");
-  let button = document.getElementById("edit-password-btn");
+	let passwordFields = document.getElementById("password-fields");
+	let button = document.getElementById("edit-password-btn");
 
-  if (passwordFields.style.display === "none") {
-    passwordFields.style.display = "block";
-    button.textContent = "Hide Password Fields";
-  } else {
-    passwordFields.style.display = "none";
-    button.textContent = "Edit Password";
-  }
+	if (passwordFields.style.display === "none") {
+		passwordFields.style.display = "block";
+		button.textContent = "Hide Password Fields";
+	} else {
+		passwordFields.style.display = "none";
+		button.textContent = "Edit Password";
+	}
 }
 
 function updateUserInDB(username, email, oldPass, newPass, confirmPass) {
-  let data = {
-    userId: userId,
-    username: username,
-    email: email,
-    oldPass: oldPass,
-    newPass: newPass,
-    confirmPass: confirmPass,
-  };
+	let data = {
+		userId: userId,
+		username: username,
+		email: email,
+		oldPass: oldPass,
+		newPass: newPass,
+		confirmPass: confirmPass,
+	};
 
-  fetch("api/updateuser.php", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  })
-    .then((res) => res.json())
-    .then((response) => {
-      if (response.error) {
-        displayError(response.error);
-      } else if (response.success) {
-        displaySuccess("Account updated successfully!");
+	fetch("api/updateuser.php", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(data),
+	})
+		.then((res) => res.json())
+		.then((response) => {
+			if (response.error) {
+				displayError(response.error);
+			} else if (response.success) {
+				displaySuccess("Account updated successfully!");
 
-        // Update localStorage with new data
-        localStorage.setItem("username", username);
-        localStorage.setItem("email", email);
-        if (newPass) {
-          localStorage.setItem("password", newPass);
-        }
+				// Update localStorage with new data
+				localStorage.setItem("username", username);
+				localStorage.setItem("email", email);
+				if (newPass) {
+					localStorage.setItem("password", newPass);
+				}
 
-        // Clear password fields
-        document.getElementById("old-password").value = "";
-        document.getElementById("new-password").value = "";
-        document.getElementById("confirm-password").value = "";
-      }
-    })
-    .catch((err) => {
-      displayError("Error updating account: " + err);
-    });
+				// Clear password fields
+				document.getElementById("old-password").value = "";
+				document.getElementById("new-password").value = "";
+				document.getElementById("confirm-password").value = "";
+			}
+		})
+		.catch((err) => {
+			displayError("Error updating account: " + err);
+		});
 }
