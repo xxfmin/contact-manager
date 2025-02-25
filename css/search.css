@@ -192,7 +192,7 @@ table {
 
 .tableContainer {
   width: 100%; /* Full width */
-  max-height: 450px; /* Limit height to prevent overflow */
+  max-height: 700px; /* Limit height to prevent overflow */
   overflow-y: auto; /* Enable vertical scrolling */
   overflow-x: auto; /* Enable horizontal scrolling if needed */
 }
