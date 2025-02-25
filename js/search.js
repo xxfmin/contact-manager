@@ -205,7 +205,7 @@ function sendContactToPHP() {
 		ownerID: ownerID,
 		firstName: firstName,
 		lastName: lastName,
-		email: email,
+		email: email
 	};
 
 	console.log(JSON.stringify(data));
@@ -269,6 +269,34 @@ function saveContact(button) {
 		return;
 	}
 
+	let contactId = row.getAttribute("contactid");
+
+	var data = {
+		ContactID: contactId,
+		firstName: newFirstName,
+		lastName: newLastName,
+		email: newEmail
+	};
+
+	fetch("api/editcontact.php", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(data),
+	})
+	.then((response) => response.json())
+	.then((result) => {
+		if(result.error) {
+			console.error("Error:", result.error);
+			alert("Duplicate Email"); // Change alert to something else
+		} else {
+			console.log("Contact Updated");
+		}
+	})
+	.catch(error => {
+		console.error("Fatal Error:", error);
+	});
+
+
 	// Set new values
 	cells[0].innerText = newFirstName;
 	cells[1].innerText = newLastName;
@@ -283,7 +311,32 @@ function saveContact(button) {
 
 function deleteContact(button) {
 	let row = button.closest("tr");
-	row.remove();
+	
+	let contactId = row.getAttribute("contactid");
+	
+	let data = {
+		ContactID: contactId
+	}
+
+	fetch("api/deletecontact.php", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(data),
+	})
+	.then((response) => response.json())
+	.then((result) => {
+		if(result.error) {
+			console.error("Error:", result.error);
+			alert("Error Deleting Account"); // Change alert to something else
+		} else {
+			console.log("Contact Deleted");
+			row.remove();
+		}
+	})
+	.catch(error => {
+		console.error("Fatal Error:", error);
+	});
+
 }
 
 // Filtering table
@@ -376,6 +429,7 @@ function searchContact() {
 				// Create a row for each contact
 				result.contacts.forEach(contact => {
 					let newRow = table.insertRow(-1);
+					newRow.setAttribute("contactid", contact.ContactID);
 					newRow.innerHTML = `
 					<td>${contact.FirstName}</td>
 					<td>${contact.LastName}</td>
