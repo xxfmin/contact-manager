@@ -185,7 +185,7 @@ function togglePasswordFields() {
 	let button = document.getElementById("edit-password-btn");
 
 	if (passwordFields.style.display === "none") {
-		passwordFields.style.display = "block";
+		passwordFields.style.display = "flex";
 		button.textContent = "Hide Password Fields";
 	} else {
 		passwordFields.style.display = "none";
