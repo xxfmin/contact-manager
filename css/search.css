@@ -209,4 +209,44 @@ th {
   background-color: #ecebe9;
 }
 
+#confirmDelete {
+    padding: 8px 12px;
+    background: #edb066;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
+#confirmDelete:hover {
+    background: #e79a3d;
+}
+
+#cancelDelete {
+    padding: 8px 12px;
+    background: rgb(134, 123, 123);
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+#cancelDelete:hover {
+    background: rgb(71, 61, 61);
+}
+
+#deleteContactConfirm {
+    position: absolute;
+    top: 25%;
+    left: 0; 
+    right: 0; 
+    margin-inline: auto; 
+    width: fit-content;
+    background-color: #ffffff;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+    border-color: #e79a3d;
+    padding: 30px;
+    text-align: center;
+    height: fit-content;
+}

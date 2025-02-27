@@ -169,6 +169,7 @@ function doSignup(event) {
 				}
 			} else {
 				displayError("Signup error: " + this.status);
+				
 			}
 		}
 	};

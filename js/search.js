@@ -266,13 +266,25 @@ function sendContactToPHP() {
 		.catch((error) => console.error("Fetch error:", error));
 }
 
-// Add click event for edit and delete on dynamically created buttons
+// Event listener for dynamically added buttons
 document.addEventListener("click", function (event) {
 	if (event.target.closest(".editBtn")) {
 		editContact(event.target.closest(".editBtn"));
 	}
 	if (event.target.closest(".deleteBtn")) {
-		deleteContact(event.target.closest(".deleteBtn"));
+		var confirm = document.getElementById("deleteContactConfirm");
+		confirm.style.display = "block";
+
+		var deleteBtn = document.getElementById("confirmDelete");
+		var cancelBtn = document.getElementById("cancelDelete");
+		deleteBtn.addEventListener("click", function(){
+			deleteContact(event.target.closest(".deleteBtn"));
+			confirm.style.display = "none";
+		})
+
+		cancelBtn.addEventListener("click", function(){
+			confirm.style.display = "none";
+		}) 
 	}
 });
 
@@ -356,10 +368,6 @@ function saveContact(button) {
 }
 
 function deleteContact(button) {
-	
-	if (!confirm("Are you sure you want to delete this contact?")) {
-		return;
-	}
 
 	let row = button.closest("tr");
 
