@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	readCookie();
 	checkAllFilters();
 	searchContact();
+	toggleSort(event.currentTarget, 0);
 	// Update <h2> if firstname is found
 	let header = document.querySelector(".header h2");
 	if (header && firstname && lastname) {
@@ -504,4 +505,72 @@ function checkAllFilters() {
 	document.getElementById("emailFilter").checked = true;
 }
 
+// Sorts the contacts
+function sortTableByColumn(tableId, colIndex, ascending) {
+  if (ascending === undefined) {
+    ascending = true;
+  }
+  
+  var table = document.getElementById(tableId);
+  var tbody = table.tBodies[0];
+  var rows = Array.from(tbody.rows);
 
+  var header = rows[0];
+  var dataRows = rows.slice(1);
+
+  dataRows.sort(function(rowA, rowB) {
+    var aVal = rowA.cells[colIndex].innerText.trim().toLowerCase();
+    var bVal = rowB.cells[colIndex].innerText.trim().toLowerCase();
+
+    if (aVal < bVal) {
+      if (ascending) {
+        return -1;
+      } else {
+        return 1;
+      }
+    } else if (aVal > bVal) {
+      if (ascending) {
+        return 1;
+      } else {
+        return -1;
+      }
+    }
+    return 0;
+  });
+
+	// Reset title bc it sorts with the list
+  tbody.innerHTML = "";
+  tbody.appendChild(header);
+  dataRows.forEach(function(row) {
+    tbody.appendChild(row);
+  });
+}
+
+// Calling function
+function toggleSort(headerCell, colIndex) {
+  var order = headerCell.getAttribute("data-order") || "asc";
+  var ascending = (order === "asc");
+  
+  // Sort the table
+  sortTableByColumn("contactTable", colIndex, ascending);
+
+  if (ascending) {
+    headerCell.setAttribute("data-order", "desc");
+  } else {
+    headerCell.setAttribute("data-order", "asc");
+  }
+}
+
+// Add buttons
+document.querySelector("#contactTable th:nth-child(1)").addEventListener("click", function(event) {
+  toggleSort(event.currentTarget, 0);
+});
+document.querySelector("#contactTable th:nth-child(2)").addEventListener("click", function(event) {
+  toggleSort(event.currentTarget, 1);
+});
+document.querySelector("#contactTable th:nth-child(3)").addEventListener("click", function(event) {
+  toggleSort(event.currentTarget, 2);
+});
+document.querySelector("#contactTable th:nth-child(4)").addEventListener("click", function(event) {
+  toggleSort(event.currentTarget, 3);
+});

@@ -208,3 +208,13 @@ td {
 th {
   background-color: #ecebe9;
 }
+
+#contactTable th {
+  transition: background-color 0.05s ease;
+}
+
+#contactTable th:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+
