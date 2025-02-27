@@ -96,6 +96,7 @@ document.getElementById("searchButton").addEventListener("click", function () {
 	});
 });
 
+<<<<<<< HEAD
 // Search if enter is hit (long way)
 
 document.getElementById("search").addEventListener("keydown", function (event) {
@@ -118,6 +119,8 @@ document.getElementById("search").addEventListener("keydown", function (event) {
 
 
 
+=======
+>>>>>>> parent of 59d7d29 (Added when hitting "Enter" key the search is performed)
 // Toggle the Add Contact form open and close
 document.querySelector(".addContact").addEventListener("click", function () {
 	let form = document.querySelector(".add-contact-form");
@@ -160,7 +163,7 @@ document.getElementById("saveContact").addEventListener("click", async function 
 	}
 	 */
 
-
+	
 	/*
 	let table = document.querySelector("table");
 	let newRow = table.insertRow(-1); // Add row at the end
@@ -173,7 +176,7 @@ document.getElementById("saveContact").addEventListener("click", async function 
 	<td><button class="editBtn"><i class="fa fa-pencil"></i></button></td>
 	<td><button class="deleteBtn"><i class="fa fa-trash-o"></i></button></td>
   `;
-	 */
+  */
 
 	sendContactToPHP();
 
@@ -361,7 +364,7 @@ function saveContact(button) {
 }
 
 function deleteContact(button) {
-
+	
 	if (!confirm("Are you sure you want to delete this contact?")) {
 		return;
 	}
