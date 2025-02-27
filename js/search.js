@@ -88,6 +88,7 @@ document.getElementById("searchButton").addEventListener("click", function () {
 	let rows = document.querySelectorAll("table tr:not(:first-child)");
 
 	searchContact();
+	toggleSort(document.querySelector("#contactTable th:nth-child(1)"), 0);
 
 	rows.forEach((row) => {
 		let text = row.innerText.toLowerCase();
@@ -104,6 +105,7 @@ document.getElementById("search").addEventListener("keydown", function (event) {
 		let rows = document.querySelectorAll("table tr:not(:first-child)");
 
 		searchContact();
+		toggleSort(document.querySelector("#contactTable th:nth-child(1)"), 0);
 
 		rows.forEach((row) => {
 			let text = row.innerText.toLowerCase();
@@ -262,6 +264,7 @@ function sendContactToPHP() {
 			} else {
 				console.log("Contact added:", result);
 				searchContact();
+				toggleSort(document.querySelector("#contactTable th:nth-child(1)"), 0);
 			}
 		})
 		.catch((error) => console.error("Fetch error:", error));
@@ -347,6 +350,7 @@ function saveContact(button) {
 
 				console.log("Contact Updated");
 				searchContact();
+				toggleSort(document.querySelector("#contactTable th:nth-child(1)"), 0);
 			}
 		})
 		.catch(error => {
