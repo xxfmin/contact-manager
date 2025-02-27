@@ -21,6 +21,14 @@ function readCookie() {
 	}
 }
 
+function toTitleCase(str) {
+	let words = str.split(" ");
+	for (let i = 0; i < words.length; i++) {
+		let word = words[i];
+		words[i] = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+	}
+	return words.join(" ");
+}
 
 // Read cookie and update the header
 document.addEventListener("DOMContentLoaded", function () {
@@ -29,8 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	searchContact();
 	// Update <h2> if firstname is found
 	let header = document.querySelector(".header h2");
-	if (header && firstname) {
-		header.textContent = firstname + "'s Contacts";
+	if (header && firstname && lastname) {
+		header.textContent = firstname + " " + lastname + "'s Contacts";
 	}
 
 	// Add click event to the dropdown profile pic
@@ -74,7 +82,7 @@ document.addEventListener("click", function (event) {
 });
 
 // Filter table based on search input
-document.getElementById("search").addEventListener("keyup", function () {
+document.getElementById("searchButton").addEventListener("click", function () {
 	let input = this.value.toLowerCase();
 	let rows = document.querySelectorAll("table tr:not(:first-child)");
 
@@ -121,11 +129,15 @@ document.getElementById("saveContact").addEventListener("click", async function 
 		return;
 	}
 
+	/*
 	const exists = await doesContactExist();
 	if(exists) {
 		return;
 	}
+	 */
 
+	
+	/*
 	let table = document.querySelector("table");
 	let newRow = table.insertRow(-1); // Add row at the end
 
@@ -137,6 +149,7 @@ document.getElementById("saveContact").addEventListener("click", async function 
 	<td><button class="editBtn"><i class="fa fa-pencil"></i></button></td>
 	<td><button class="deleteBtn"><i class="fa fa-trash-o"></i></button></td>
   `;
+  */
 
 	sendContactToPHP();
 
@@ -202,6 +215,10 @@ function sendContactToPHP() {
 	let lastName = document.getElementById("contactLastName").value;
 	let email = document.getElementById("contactEmail").value;
 
+	firstName = toTitleCase(firstName);
+	lastName = toTitleCase(lastName);
+	email = email.toLowerCase();
+
 	var data = {
 		ownerID: ownerID,
 		firstName: firstName,
@@ -222,6 +239,7 @@ function sendContactToPHP() {
 				console.error("Error:", result.error);
 			} else {
 				console.log("Contact added:", result);
+				searchContact();
 			}
 		})
 		.catch((error) => console.error("Fetch error:", error));
@@ -272,6 +290,10 @@ function saveContact(button) {
 
 	let contactId = row.getAttribute("contactid");
 
+	newFirstName = toTitleCase(newFirstName);
+	newLastName = toTitleCase(newLastName);
+	newEmail = newEmail.toLowerCase();
+
 	var data = {
 		ContactID: contactId,
 		firstName: newFirstName,
@@ -284,37 +306,44 @@ function saveContact(button) {
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify(data),
 	})
-	.then((response) => response.json())
-	.then((result) => {
-		if(result.error) {
-			console.error("Error:", result.error);
-			alert("Duplicate Email"); // Change alert to something else
-		} else {
-			console.log("Contact Updated");
-		}
-	})
-	.catch(error => {
-		console.error("Fatal Error:", error);
-	});
+		.then((response) => response.json())
+		.then((result) => {
+			if(result.error) {
+				console.error("Error:", result.error);
+			} else {
+				// Set new values
+				cells[0].innerText = newFirstName;
+				cells[1].innerText = newLastName;
+				cells[2].innerText = newEmail;
+
+				// Restore edit button
+				button.innerHTML = `<i class="fa fa-pencil"></i>`;
+				button.onclick = function () {
+					editContact(button);
+				};
 
 
-	// Set new values
-	cells[0].innerText = newFirstName;
-	cells[1].innerText = newLastName;
-	cells[2].innerText = newEmail;
+				console.log("Contact Updated");
+				searchContact();
+			}
+		})
+		.catch(error => {
+			console.error("Fatal Error:", error);
+		});
 
-	// Restore edit button
-	button.innerHTML = `<i class="fa fa-pencil"></i>`;
-	button.onclick = function () {
-		editContact(button);
-	};
+
 }
 
 function deleteContact(button) {
+	
+	if (!confirm("Are you sure you want to delete this contact?")) {
+		return;
+	}
+
 	let row = button.closest("tr");
-	
+
 	let contactId = row.getAttribute("contactid");
-	
+
 	let data = {
 		ContactID: contactId
 	}
@@ -324,19 +353,19 @@ function deleteContact(button) {
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify(data),
 	})
-	.then((response) => response.json())
-	.then((result) => {
-		if(result.error) {
-			console.error("Error:", result.error);
-			alert("Error Deleting Contact"); // Change alert to something else
-		} else {
-			console.log("Contact Deleted");
-			row.remove();
-		}
-	})
-	.catch(error => {
-		console.error("Fatal Error:", error);
-	});
+		.then((response) => response.json())
+		.then((result) => {
+			if(result.error) {
+				console.error("Error:", result.error);
+				alert("Error Deleting Contact"); // Change alert to something else
+			} else {
+				console.log("Contact Deleted");
+				row.remove();
+			}
+		})
+		.catch(error => {
+			console.error("Fatal Error:", error);
+		});
 
 }
 
@@ -367,7 +396,7 @@ function filterTable() {
 	}
 }
 
-document.getElementById("search").addEventListener("input", filterTable);
+//document.getElementById("search").addEventListener("input", filterTable);
 document.getElementById("fNameFilter").addEventListener("change", filterTable);
 document.getElementById("lNameFilter").addEventListener("change", filterTable);
 document.getElementById("emailFilter").addEventListener("change", filterTable);
@@ -445,6 +474,9 @@ function searchContact() {
 		})
 		.catch((error) => console.error("Fetch error:", error));
 }
+
+
+
 function checkAllFilters() {
 	document.getElementById("fNameFilter").checked = true;
 	document.getElementById("lNameFilter").checked = true;

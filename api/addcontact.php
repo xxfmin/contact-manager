@@ -28,6 +28,7 @@ $last = $inData["lastName"];
 $email = $inData["email"];
 $ownerID = $inData["ownerID"];
 
+/*
 // Check for duplicate contacts?
 
 $stmt = $conn->prepare("SELECT * FROM Contacts WHERE email = ?");
@@ -56,6 +57,7 @@ if ($stmt->execute()) {
 	$conn->close();
 	exit();
 }
+ */
 
 // Add contact
 $stmt = $conn->prepare("INSERT INTO Contacts (OwnerID, FirstName, LastName, Email) VALUES (?, ?, ?, ?)");

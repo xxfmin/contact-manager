@@ -17,6 +17,7 @@ $firstName = trim($inData['firstName']);
 $lastName = trim($inData['lastName']);
 $email = trim($inData['email']);
 
+/*
 // Check if contact exists
 $stmt = $conn->prepare("SELECT COUNT(*) AS count FROM Contacts WHERE Email = ? AND ContactID != ?");
 $stmt->execute([$email, $contactID]);
@@ -31,6 +32,7 @@ if ($row && $row['count'] > 0) {
 	]);
 	exit;
 }
+ */
 
  $stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, Email = ?, DateCreated = NOW() WHERE ContactID = ?");
 if ($stmt->execute([$firstName, $lastName, $email, $contactID])) {
